@@ -436,14 +436,17 @@ class LTTextLineHorizontal(LTTextLine):
         will be the same height as self, and also either left-, right-, or
         centrally-aligned.
         """
-        d = ratio * self.height
-        objs = plane.find((self.x0, self.y0 - d, self.x1, self.y1 + d))
+        d_vert = ratio * self.height
+        d_hori = 3 * self.height
+        d_height = 0.5 * self.height
+        objs = plane.find((self.x0, self.y0 - d_vert, self.x1, self.y1 + d_vert))
         return [obj for obj in objs
                 if (isinstance(obj, LTTextLineHorizontal) and
-                    self._is_same_height_as(obj, tolerance=d) and
-                    (self._is_left_aligned_with(obj, tolerance=d) or
-                     self._is_right_aligned_with(obj, tolerance=d) or
-                     self._is_centrally_aligned_with(obj, tolerance=d)))]
+                    # self._is_same_height_as(obj, tolerance=d_height) and
+                    (self._is_left_aligned_with(obj, tolerance=d_hori) or
+                     self._is_right_aligned_with(obj, tolerance=d_hori) or
+                     self._is_centrally_aligned_with(obj, tolerance=d_hori)
+                     ))]
 
     def _is_left_aligned_with(self, other, tolerance=0):
         """
